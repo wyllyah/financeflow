@@ -26,7 +26,12 @@ import { TransactionBadge } from "../components/TransactionBadge";
 import { useSettings } from "../contexts/useSettings";
 import { api } from "../services/api";
 import { listCategories } from "../services/categoryService";
-import { formatCurrency, formatDate, parseCurrencyInput } from "../utils/formatters";
+import {
+  formatCurrency,
+  formatCurrencyInput,
+  formatDate,
+  parseCurrencyInput,
+} from "../utils/formatters";
 
 const DEFAULT_FILTER_YEAR = "2026";
 
@@ -205,6 +210,7 @@ export function Transactions() {
     defaultValues: getDefaultFormValues(),
   });
 
+  const amountField = register("amount");
   const selectedType = useWatch({ control, name: "type" });
   const selectedCategoryId = useWatch({ control, name: "categoryId" });
   const categoryOptions =
@@ -310,7 +316,7 @@ export function Transactions() {
     setSubmitError("");
     reset({
       title: transaction.title || "",
-      amount: String(transaction.amount || ""),
+      amount: formatCurrencyInput(Number(transaction.amount || 0)),
       type: transaction.type || "EXPENSE",
       categoryId: transaction.categoryId || "",
       category: transaction.category || "",
@@ -773,10 +779,16 @@ export function Transactions() {
                 <Input
                   id="amount"
                   label="Valor"
-                  inputMode="decimal"
-                  placeholder="Ex: 1000,50"
+                  inputMode="numeric"
+                  placeholder="R$ 0,00"
                   error={errors.amount?.message}
-                  {...register("amount")}
+                  {...amountField}
+                  onChange={(event) => {
+                    setValue("amount", formatCurrencyInput(event.target.value), {
+                      shouldDirty: true,
+                      shouldValidate: true,
+                    });
+                  }}
                 />
               </div>
 
