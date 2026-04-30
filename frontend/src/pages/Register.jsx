@@ -19,6 +19,12 @@ export function Register() {
   async function handleSubmit(event) {
     event.preventDefault();
     setError("");
+
+    if (password.length < 6) {
+      setError("A senha deve ter pelo menos 6 caracteres.");
+      return;
+    }
+
     setSubmitting(true);
 
     try {

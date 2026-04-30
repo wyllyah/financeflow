@@ -1,34 +1,26 @@
 # FinanceFlow
 
-FinanceFlow e uma aplicacao full stack de controle financeiro pessoal, desenvolvida com React, Node.js, Express, Prisma e PostgreSQL. O sistema permite cadastro e login de usuarios, controle de receitas e despesas, dashboard financeiro e gerenciamento completo de transacoes.
+FinanceFlow é uma aplicação full stack de controle financeiro pessoal. O projeto oferece uma experiência moderna para acompanhar receitas, despesas, saldo, categorias e indicadores financeiros, com autenticação segura e dados isolados por usuário.
 
-## Status
+## Links finais
 
-Projeto em desenvolvimento.
+- Frontend: https://financeflow-wheat-tau.vercel.app
+- Backend: https://financeflow-34u8.onrender.com
 
-## Funcionalidades
+## Funcionalidades principais
 
-- Cadastro de usuario
-- Login com JWT
-- Rotas protegidas
-- Dashboard financeiro
-- Dashboard avancado com dados mensais e comparativos
-- Cadastro de receitas
-- Cadastro de despesas
-- Categorias personalizadas
-- Listagem de transacoes
-- Edicao de transacoes
-- Exclusao de transacoes
-- Filtros por tipo
-- Filtros por mes e ano
-- Filtros por categoria, busca, periodo e ordenacao
-- Pagina de perfil do usuario
-- Pagina de configuracoes
-- Preferencias visuais salvas no navegador
-- Resumo de saldo, receitas e despesas
-- Graficos financeiros
+- Cadastro e login de usuários
+- Autenticação com JWT
+- Dashboard financeiro com saldo, receitas, despesas e comparativos
+- CRUD completo de transações
+- Cadastro e gestão de categorias personalizadas
+- Filtros de transações por tipo, categoria, busca, período, mês, ano e ordenação
+- Perfil do usuário
+- Configurações de interface com preferências locais
+- Recuperação de senha
+- Dados financeiros protegidos por usuário autenticado
 
-## Tecnologias utilizadas
+## Tecnologias usadas
 
 Backend:
 
@@ -51,241 +43,142 @@ Frontend:
 - Tailwind CSS
 - React Router DOM
 - Axios
-- Recharts
 - Lucide React
+- Recharts
 - React Hook Form
 - Zod
 
-## Estrutura do projeto
+Deploy e infraestrutura:
 
-```text
-financeflow/
-├── backend/
-└── frontend/
-```
+- Vercel para frontend
+- Render para backend
+- Supabase PostgreSQL para banco de dados
 
 ## Como rodar localmente
 
-### 1. Clonar o repositorio
+Clone o repositório:
 
 ```bash
 git clone URL_DO_REPOSITORIO
 cd financeflow
 ```
 
-### 2. Configurar backend
+### Backend
+
+Entre na pasta do backend e instale as dependências:
 
 ```bash
 cd backend
 npm install
 ```
 
-Crie um arquivo `.env` em `backend/`:
+Crie `backend/.env` a partir de `backend/.env.example`:
 
 ```env
 PORT=3333
-DATABASE_URL="postgresql://USUARIO:SENHA@HOST:PORTA/BANCO?sslmode=require"
+DATABASE_URL="postgresql://..."
 JWT_SECRET="sua_chave_jwt"
+FRONTEND_URL="http://localhost:5173"
 ```
 
-Rode o Prisma:
+Gere o Prisma Client e rode o servidor:
 
 ```bash
 npx prisma generate
-npx prisma migrate dev
-```
-
-Rode o backend:
-
-```bash
 npm run dev
 ```
 
-Backend:
+Backend local:
 
 ```text
 http://localhost:3333
 ```
 
-### 3. Configurar frontend
+### Frontend
 
-Em outro terminal:
+Em outro terminal, entre na pasta do frontend e instale as dependências:
 
 ```bash
 cd frontend
 npm install
 ```
 
-Crie um arquivo `.env` em `frontend/`:
+Crie `frontend/.env` a partir de `frontend/.env.example`:
 
 ```env
 VITE_API_URL=http://localhost:3333
 ```
 
-Rode o frontend:
+Rode a aplicação:
 
 ```bash
 npm run dev
 ```
 
-Frontend:
+Frontend local:
 
 ```text
 http://localhost:5173
 ```
 
-## Configuracao do banco
+## Variáveis de ambiente
 
-O projeto usa PostgreSQL. Durante o desenvolvimento foi usado Supabase PostgreSQL.
+Backend:
 
-O Prisma gerencia o schema e as migrations. Para Supabase Session Pooler, o usuario costuma seguir o formato:
-
-```text
-postgres.PROJECT_REF
-```
-
-Nao coloque senha real, URL real de banco ou segredos em arquivos versionados.
-
-## Rotas principais da API
-
-Auth:
-
-- `POST /auth/register`
-- `POST /auth/login`
-- `GET /auth/me`
-
-Transactions:
-
-- `GET /transactions`
-- `GET /transactions?type=EXPENSE&categoryId=ID&search=mercado`
-- `GET /transactions?startDate=2026-04-01&endDate=2026-04-30`
-- `POST /transactions`
-- `PUT /transactions/:id`
-- `DELETE /transactions/:id`
-
-Categories:
-
-- `GET /categories`
-- `GET /categories?type=INCOME`
-- `POST /categories`
-- `GET /categories/:id`
-- `PUT /categories/:id`
-- `DELETE /categories/:id`
-
-Users:
-
-- `GET /users/profile`
-- `PUT /users/profile`
-
-Dashboard:
-
-- `GET /dashboard`
+- `PORT`: porta usada pela API.
+- `DATABASE_URL`: URL de conexão do PostgreSQL.
+- `JWT_SECRET`: chave usada para assinar tokens JWT.
+- `FRONTEND_URL`: URL pública do frontend autorizada no CORS.
 
 Frontend:
 
-- `/settings` para configurar tema, cor de destaque, densidade, moeda e confirmacoes de exclusao.
+- `VITE_API_URL`: URL da API consumida pelo Axios.
 
-## Exemplos de payload
+## Deploy
 
-Cadastro:
+### Frontend na Vercel
 
-```json
-{
-  "name": "Gustavo Wyllyah",
-  "email": "gustavo@email.com",
-  "password": "123456"
-}
+1. Configure o projeto apontando para a pasta `frontend`.
+2. Defina o comando de build como `npm run build`.
+3. Defina o diretório de saída como `dist`.
+4. Configure a variável `VITE_API_URL` com a URL pública do backend no Render.
+5. Faça o deploy.
+
+### Backend no Render
+
+1. Configure o serviço apontando para a pasta `backend`.
+2. Defina o comando de build conforme necessário para instalar dependências e gerar o Prisma Client.
+3. Defina o comando de start como `npm start`.
+4. Configure as variáveis `PORT`, `DATABASE_URL`, `JWT_SECRET` e `FRONTEND_URL`.
+5. Use em `FRONTEND_URL` a URL pública do frontend na Vercel.
+
+### Banco no Supabase PostgreSQL
+
+1. Crie o projeto no Supabase.
+2. Copie a connection string PostgreSQL.
+3. Configure essa URL em `DATABASE_URL` no backend.
+4. Rode as migrations do Prisma em ambiente apropriado antes de usar a API em produção.
+
+## Segurança
+
+- Não versionar arquivos `.env`.
+- Senhas são armazenadas com hash usando bcrypt.
+- A autenticação usa JWT.
+- Rotas financeiras exigem autenticação.
+- Transações e categorias são protegidas por usuário.
+- O frontend não acessa o banco diretamente; toda regra de negócio fica no backend.
+
+## Estrutura
+
+```text
+financeflow/
+├── backend/
+│   ├── prisma/
+│   ├── src/
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   └── package.json
+├── agent.md
+└── README.md
 ```
-
-Login:
-
-```json
-{
-  "email": "gustavo@email.com",
-  "password": "123456"
-}
-```
-
-Criar transacao:
-
-```json
-{
-  "title": "Salario",
-  "amount": 3000,
-  "type": "INCOME",
-  "category": "Trabalho",
-  "date": "2026-04-29",
-  "description": "Recebimento mensal"
-}
-```
-
-Criar categoria:
-
-```json
-{
-  "name": "Alimentacao",
-  "type": "EXPENSE",
-  "color": "#f43f5e",
-  "icon": "cartao"
-}
-```
-
-## Seguranca
-
-- Senhas sao salvas com hash usando bcrypt.
-- Autenticacao usa JWT.
-- Rotas financeiras sao protegidas.
-- Usuarios so acessam suas proprias transacoes.
-- Arquivos `.env` nao devem ser enviados ao GitHub.
-- Preferencias visuais ficam no `localStorage`; dados financeiros principais nao devem ser salvos no `localStorage`.
-
-## Configuracoes do frontend
-
-A pagina `/settings` permite ajustar preferencias locais da interface:
-
-- Tema: sistema, claro ou escuro.
-- Cor de destaque: azul, ciano, verde ou roxo.
-- Densidade: confortavel ou compacta.
-- Moeda: BRL, USD ou EUR.
-- Confirmacao antes de excluir transacoes e categorias.
-
-Essas preferencias sao salvas apenas no navegador usando `localStorage`.
-
-## Aprendizados do projeto
-
-- Criacao de API REST
-- Autenticacao com JWT
-- Integracao frontend/backend
-- Prisma ORM
-- PostgreSQL
-- CRUD completo
-- Categorias personalizadas por usuario
-- Filtros avancados em listagens
-- Perfil do usuario
-- Configuracoes locais de interface
-- Dashboard com dados reais
-- Dashboard com comparativos mensais
-- Rotas protegidas
-- Organizacao de projeto full stack
-
-## Proximas melhorias
-
-- Deploy do backend
-- Deploy do frontend
-- Refresh token
-- Cookies HTTP-only
-- Relatorios mensais
-- Exportacao CSV/PDF
-- Testes automatizados
-
-## Autor
-
-Gustavo Wyllyah
-
-GitHub:
-
-https://github.com/wyllyah
-
-LinkedIn:
-
-Adicionar link futuramente

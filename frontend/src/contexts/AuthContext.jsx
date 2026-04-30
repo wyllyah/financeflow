@@ -50,7 +50,12 @@ export function AuthProvider({ children }) {
 
       return data.user;
     } catch (error) {
-      throw new Error(getErrorMessage(error, "Não foi possível entrar."), {
+      const message =
+        error?.response?.status === 401
+          ? "E-mail ou senha inválidos."
+          : getErrorMessage(error, "Não foi possível entrar.");
+
+      throw new Error(message, {
         cause: error,
       });
     }

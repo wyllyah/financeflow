@@ -26,14 +26,14 @@ import { TransactionBadge } from "../components/TransactionBadge";
 import { useSettings } from "../contexts/useSettings";
 import { api } from "../services/api";
 import { listCategories } from "../services/categoryService";
-import { formatCurrency, formatDate } from "../utils/formatters";
+import { formatCurrency, formatDate, parseCurrencyInput } from "../utils/formatters";
 
 const DEFAULT_FILTER_YEAR = "2026";
 
 const transactionSchema = z.object({
   title: z.string().trim().min(1, "Título obrigatório."),
   amount: z.preprocess(
-    (value) => (value === "" ? undefined : Number(value)),
+    (value) => (value === "" ? undefined : parseCurrencyInput(value)),
     z
       .number({ error: "Valor obrigatório." })
       .positive("Valor obrigatório e maior que zero.")
@@ -97,7 +97,7 @@ function getDefaultFormValues() {
 function buildPayload(formData) {
   return {
     title: formData.title.trim(),
-    amount: Number(formData.amount),
+    amount: parseCurrencyInput(formData.amount),
     type: formData.type,
     categoryId: formData.categoryId || undefined,
     category: formData.category?.trim() || undefined,
@@ -773,10 +773,8 @@ export function Transactions() {
                 <Input
                   id="amount"
                   label="Valor"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="3000"
+                  inputMode="decimal"
+                  placeholder="Ex: 1000,50"
                   error={errors.amount?.message}
                   {...register("amount")}
                 />
