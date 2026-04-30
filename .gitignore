@@ -1,0 +1,14 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+/generated/prisma
+dist
+coverage
+.vercel
+backend/node_modules
+frontend/node_modules
+backend/.env
+frontend/.env
+backend/dist
+frontend/dist
